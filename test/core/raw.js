@@ -1,17 +1,17 @@
-const { expect } = require("chai");
-const { getCompatProp } = require("../../src/utils");
+const { expect } = require('chai');
+const { getCompatProp } = require('../../lib/utils');
 
 function raw(app, serviceName, esVersion) {
-  describe("raw()", () => {
-    it("should search documents in index with syntax term", () => {
+  describe('raw()', () => {
+    it('should search documents in index with syntax term', () => {
       return app
         .service(serviceName)
-        .raw("search", {
+        .raw('search', {
           size: 50,
           body: {
             query: {
               term: {
-                name: "Bob",
+                name: 'Bob',
               },
             },
           },
@@ -21,15 +21,15 @@ function raw(app, serviceName, esVersion) {
         });
     });
 
-    it("should search documents in index with syntax match", () => {
+    it('should search documents in index with syntax match', () => {
       return app
         .service(serviceName)
-        .raw("search", {
+        .raw('search', {
           size: 50,
           body: {
             query: {
               match: {
-                bio: "javascript",
+                bio: 'javascript',
               },
             },
           },
@@ -39,49 +39,45 @@ function raw(app, serviceName, esVersion) {
         });
     });
 
-    it("should show the mapping of index test", () => {
+    it('should show the mapping of index test', () => {
       const mappings = {
-        "5.0": ["test.mappings.aka._parent.type", "people"],
-        "6.0": ["test-people.mappings.doc.properties.aka.type", "join"],
-        "7.0": ["test-people.mappings.properties.aka.type", "join"],
+        '5.0': ['test.mappings.aka._parent.type', 'people'],
+        '6.0': ['test-people.mappings.doc.properties.aka.type', 'join'],
+        '7.0': ['test-people.mappings.properties.aka.type', 'join'],
       };
 
       return app
-        .service("aka")
-        .raw("indices.getMapping", {})
+        .service('aka')
+        .raw('indices.getMapping', {})
         .then((results) => {
-          expect(results).to.have.nested.property(
-            ...getCompatProp(mappings, esVersion)
-          );
+          expect(results).to.have.nested.property(...getCompatProp(mappings, esVersion));
         });
     });
 
-    it("should return a promise when the passed in method is not defined", () => {
+    it('should return a promise when the passed in method is not defined', () => {
       app
         .service(serviceName)
         .raw(undefined, {})
         .catch((err) => {
-          expect(err.message === "params.method must be defined.");
+          expect(err.message === 'params.method must be defined.');
         });
     });
 
-    it("should return a promise when service.method is not a function", () => {
+    it('should return a promise when service.method is not a function', () => {
       app
         .service(serviceName)
-        .raw("notafunction", {})
+        .raw('notafunction', {})
         .catch((err) => {
-          expect(err.message === "There is no query method notafunction.");
+          expect(err.message === 'There is no query method notafunction.');
         });
     });
 
-    it("should return a promise when service.method.extention is not a function", () => {
+    it('should return a promise when service.method.extention is not a function', () => {
       app
         .service(serviceName)
-        .raw("indices.notafunction", {})
+        .raw('indices.notafunction', {})
         .catch((err) => {
-          expect(
-            err.message === "There is no query method indices.notafunction."
-          );
+          expect(err.message === 'There is no query method indices.notafunction.');
         });
     });
   });
