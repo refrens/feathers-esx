@@ -107,7 +107,7 @@ On top of the standard, cross-adapter [queries](querying.md), feathers-elasticse
 
 ```js
 query: {
-  $all: true
+  $all: true;
 }
 ```
 
@@ -118,7 +118,7 @@ query: {
 ```js
 query: {
   user: {
-    $prefix: 'bo'
+    $prefix: 'bo';
   }
 }
 ```
@@ -130,7 +130,7 @@ query: {
 ```js
 query: {
   user: {
-    $wildcard: 'B*b'
+    $wildcard: 'B*b';
   }
 }
 ```
@@ -142,7 +142,7 @@ query: {
 ```js
 query: {
   user: {
-    $regexp: 'Bo[xb]'
+    $regexp: 'Bo[xb]';
   }
 }
 ```
@@ -153,7 +153,7 @@ query: {
 
 ```js
 query: {
-  $exists: ['phone', 'address']
+  $exists: ['phone', 'address'];
 }
 ```
 
@@ -163,7 +163,7 @@ The inverse of [`exists`](https://www.elastic.co/guide/en/elasticsearch/referenc
 
 ```js
 query: {
-  $missing: ['phone', 'address']
+  $missing: ['phone', 'address'];
 }
 ```
 
@@ -174,7 +174,7 @@ query: {
 ```js
 query: {
   bio: {
-    $match: 'javascript'
+    $match: 'javascript';
   }
 }
 ```
@@ -186,7 +186,7 @@ query: {
 ```js
 query: {
   bio: {
-    $phrase: 'I like JavaScript'
+    $phrase: 'I like JavaScript';
   }
 }
 ```
@@ -198,7 +198,7 @@ query: {
 ```js
 query: {
   bio: {
-    $phrase_prefix: 'I like JavaS'
+    $phrase_prefix: 'I like JavaS';
   }
 }
 ```
@@ -248,7 +248,7 @@ Find all documents which match all of the given criteria. As any field in Elasti
 
 ```js
 query: {
-  $and: [{ notes: { $match: 'javascript' } }, { notes: { $match: 'project' } }]
+  $and: [{ notes: { $match: 'javascript' } }, { notes: { $match: 'project' } }];
 }
 ```
 
@@ -256,7 +256,7 @@ There is also a shorthand version of `$and` for equality. For instance:
 
 ```js
 query: {
-  $and: [{ tags: 'javascript' }, { tags: 'react' }]
+  $and: [{ tags: 'javascript' }, { tags: 'react' }];
 }
 ```
 
@@ -264,7 +264,7 @@ Can be also expressed as:
 
 ```js
 query: {
-  tags: ['javascript', 'react']
+  tags: ['javascript', 'react'];
 }
 ```
 
