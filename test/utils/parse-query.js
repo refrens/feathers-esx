@@ -293,6 +293,120 @@ module.exports = function parseQueryTests() {
       expect(parseQuery(query, '_id')).to.deep.equal(expectedResult);
     });
 
+    it('should return "bool" query for $and with $or inside', () => {
+      const query = {
+        $and: [
+          { tags: 'javascript' },
+          { age: { $in: [25, 26] } },
+          { $or: [{ tags: 'legend' }, { tags: 'nodejs' }] },
+          { age: { $nin: [23, 24] } },
+        ],
+        name: 'Doug',
+      };
+
+      const expectedResult = {
+        filter: [
+          { term: { tags: 'javascript' } },
+          { terms: { age: [25, 26] } },
+          { term: { name: 'Doug' } },
+        ],
+        must: [
+          {
+            bool: {
+              should: [
+                { bool: { filter: [{ term: { tags: 'legend' } }] } },
+                { bool: { filter: [{ term: { tags: 'nodejs' } }] } },
+              ],
+              minimum_should_match: 1,
+            },
+          },
+        ],
+        must_not: [{ terms: { age: [23, 24] } }],
+      };
+
+      expect(parseQuery(query, '_id')).to.deep.equal(expectedResult);
+    });
+
+    it('should return "bool" query for $or with $and inside', () => {
+      const query = {
+        $or: [
+          { tags: 'javascript' },
+          { $and: [{ tags: 'legend' }, { tags: 'nodejs' }] },
+          { age: { $nin: [23, 24] } },
+          { age: { $in: [25, 26] } },
+        ],
+        name: 'Doug',
+      };
+
+      const expectedResult = {
+        should: [
+          {
+            bool: {
+              filter: [{ term: { tags: 'javascript' } }],
+            },
+          },
+          {
+            bool: {
+              filter: [{ term: { tags: 'legend' } }, { term: { tags: 'nodejs' } }],
+            },
+          },
+          {
+            bool: {
+              must_not: [{ terms: { age: [23, 24] } }],
+            },
+          },
+          {
+            bool: {
+              filter: [{ terms: { age: [25, 26] } }],
+            },
+          },
+        ],
+        minimum_should_match: 1,
+        filter: [{ term: { name: 'Doug' } }],
+      };
+
+      expect(parseQuery(query, '_id')).to.deep.equal(expectedResult);
+    });
+
+    it('should return "must" query for multiple $or nested inside $and', () => {
+      const query = {
+        $and: [
+          { $or: [{ tags: 'javascript' }, { tags: 'nodejs' }] },
+          { $or: [{ tags: 'legend' }, { tags: 'react' }] },
+          { age: { $nin: [23, 24] } },
+          { age: { $in: [25, 26] } },
+        ],
+        name: 'Doug',
+      };
+
+      const expectedResult = {
+        must: [
+          {
+            bool: {
+              should: [
+                { bool: { filter: [{ term: { tags: 'javascript' } }] } },
+                { bool: { filter: [{ term: { tags: 'nodejs' } }] } },
+              ],
+              minimum_should_match: 1,
+            },
+          },
+          {
+            bool: {
+              should: [
+                { bool: { filter: [{ term: { tags: 'legend' } }] } },
+                { bool: { filter: [{ term: { tags: 'react' } }] } },
+              ],
+              minimum_should_match: 1,
+            },
+          },
+        ],
+        filter: [{ terms: { age: [25, 26] } }, { term: { name: 'Doug' } }],
+        must_not: [{ terms: { age: [23, 24] } }],
+      };
+
+      expect(parseQuery(query, '_id')).to.deep.equal(expectedResult);
+    });
+
     it('should return "simple_query_string" for $sqs with default_operator "or" by default', () => {
       const query = {
         $sqs: {
