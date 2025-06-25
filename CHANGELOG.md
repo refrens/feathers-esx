@@ -1,3 +1,12 @@
+## 1.0.1 (2025-06-25)
+
+
+### Bug Fixes
+
+* fixes and operator parser fn in query parsing ([807cf8b](https://github.com/refrens/feathers-esx/commit/807cf8b6e9c3ae2e622a35671b61eaa188427f35))
+* fixes unhandled case of query override ([7946749](https://github.com/refrens/feathers-esx/commit/79467498202e96cc640a0cad2aa6eb2eb5516ef1))
+* **package:** update debug to version 3.0.0 ([#32](https://github.com/refrens/feathers-esx/issues/32)) ([3cef8f2](https://github.com/refrens/feathers-esx/commit/3cef8f2d2305f20be515a366306413124fa3fa54))
+
 # Change Log
 
 ## [v3.0.0](https://github.com/feathersjs-ecosystem/feathers-elasticsearch/tree/v3.0.0) (2019-07-06)
