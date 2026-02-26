@@ -1,3 +1,5 @@
+## [1.0.2](https://github.com/refrens/feathers-esx/compare/1.0.2-es-paginate-false-1.0...1.0.2) (2026-02-26)
+
 ## [1.0.2-es-paginate-false-1.0](https://github.com/refrens/feathers-esx/compare/1.0.2-es-paginate-false.0...1.0.2-es-paginate-false-1.0) (2026-02-02)
 
 ## [1.0.2-es-paginate-false.0](https://github.com/refrens/feathers-esx/compare/1.0.1...1.0.2-es-paginate-false.0) (2026-02-02)

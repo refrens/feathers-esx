@@ -1,6 +1,6 @@
 {
   "name": "@refrens/feathers-esx",
-  "version": "1.0.2-es-paginate-false-1.0",
+  "version": "1.0.2",
   "description": "Refrens fork of feathers-elasticsearch with fixes and extensions",
   "main": "lib/",
   "types": "types",
