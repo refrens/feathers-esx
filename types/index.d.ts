@@ -24,6 +24,24 @@ export interface ElasticsearchServiceEsOptions {
   versionField?: string;
 }
 
+/**
+ * Params accepted by `_create` in addition to the standard Feathers params.
+ */
+export interface ElasticsearchCreateParams extends Params {
+  /**
+   * Use the `index` bulk action rather than `create`, so writing a document that already
+   * exists overwrites it instead of failing. Also enables external versioning when the
+   * service declares `esOptions.versionField`.
+   */
+  upsert?: boolean;
+  /**
+   * Skip the `mget` that normally follows a bulk write. The returned array then holds
+   * `mapBulk` metadata records rather than the fetched source documents, so only use this
+   * when the return value is discarded (e.g. a background sync to a secondary store).
+   */
+  $noFetch?: boolean;
+}
+
 export interface ElasticsearchServiceOptions extends ServiceOptions {
   Model: Client;
   elasticsearch: any;
@@ -55,7 +73,10 @@ export class Service<T = any> extends AdapterService implements InternalServiceM
 
   _get(id: Id, params?: Params): Promise<T>;
 
-  _create(data: Partial<T> | Array<Partial<T>>, params?: Params): Promise<T | T[]>;
+  _create(
+    data: Partial<T> | Array<Partial<T>>,
+    params?: ElasticsearchCreateParams,
+  ): Promise<T | T[]>;
 
   _update(id: NullableId, data: T, params?: Params): Promise<T>;
 
