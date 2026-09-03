@@ -158,5 +158,45 @@ describe('Elasticsearch service options', () => {
       expect(result[0]._meta).to.deep.equal({ _id: '1', status: 201 });
     });
   });
+
+  /**
+   * `paginate: false` with no `$limit` leaves `size` undefined, so Elasticsearch applies its
+   * own default of 10 and a full export silently returns 10 rows. master fixed this in
+   * `653ff91` (REF-19943); this branch forked before that commit and dropped it, which is how
+   * it came back. Driven through a stub `Model.search` so no server is needed.
+   */
+  describe('find: size when paginate is false', () => {
+    const captureSearch = async (params) => {
+      let sent;
+      const service = new Service({
+        Model: {
+          search: (findParams) => {
+            sent = findParams;
+            return Promise.resolve({ hits: { hits: [], total: 0 } });
+          },
+        },
+        esVersion: '6.0',
+        elasticsearch: { index: 'people' },
+        paginate: { default: 10, max: 50 },
+      });
+      await service.find(params);
+      return sent;
+    };
+
+    it('falls back to 10000 when paginate is false and no $limit is given', async () => {
+      const sent = await captureSearch({ paginate: false, query: {} });
+      expect(sent.size).to.equal(10000);
+    });
+
+    it('still honours an explicit $limit when paginate is false', async () => {
+      const sent = await captureSearch({ paginate: false, query: { $limit: 25 } });
+      expect(sent.size).to.equal(25);
+    });
+
+    it('leaves the paginated path alone', async () => {
+      const sent = await captureSearch({ query: { $limit: 5 } });
+      expect(sent.size).to.equal(5);
+    });
+  });
 });
 /* eslint-enable no-underscore-dangle */
