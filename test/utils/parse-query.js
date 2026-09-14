@@ -143,7 +143,6 @@ module.exports = function parseQueryTests() {
     });
 
     it('should throw BadRequest if criteria is not a valid primitive, array or an object', () => {
-      expect(() => parseQuery({ age: null }, '_id')).to.throw(errors.BadRequest);
       expect(() => parseQuery({ age: NaN }, '_id')).to.throw(errors.BadRequest);
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       expect(() => parseQuery({ age: () => {} }, '_id')).to.throw(errors.BadRequest);
@@ -166,6 +165,32 @@ module.exports = function parseQueryTests() {
       };
       const expectedResult = {
         filter: [{ term: { user: 'doug' } }, { term: { age: 23 } }, { term: { active: true } }],
+      };
+
+      expect(parseQuery(query, '_id')).to.deep.equal(expectedResult);
+    });
+
+    it('should return "must_not exists" query for null values', () => {
+      const query = {
+        vendor: null,
+        shippedFrom: null,
+      };
+      const expectedResult = {
+        must_not: [{ exists: { field: 'vendor' } }, { exists: { field: 'shippedFrom' } }],
+      };
+
+      expect(parseQuery(query, '_id')).to.deep.equal(expectedResult);
+    });
+
+    it('should handle mixed null and non-null values', () => {
+      const query = {
+        user: 'doug',
+        vendor: null,
+        age: 23,
+      };
+      const expectedResult = {
+        filter: [{ term: { user: 'doug' } }, { term: { age: 23 } }],
+        must_not: [{ exists: { field: 'vendor' } }],
       };
 
       expect(parseQuery(query, '_id')).to.deep.equal(expectedResult);
