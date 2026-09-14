@@ -1,3 +1,23 @@
+## [1.0.3](https://github.com/refrens/feathers-esx/compare/1.0.2...1.0.3) (2026-09-14)
+
+
+### Bug Fixes
+
+* handle unpaginated false ([c1c7ab7](https://github.com/refrens/feathers-esx/commit/c1c7ab79c04b72d8b24abe5267f0638786b2a059))
+* reverts null handling in parse query ([394fdb8](https://github.com/refrens/feathers-esx/commit/394fdb86ed18d0ce9d04889d2f3bb31d258d6f95))
+
+
+
+## [1.0.2](https://github.com/refrens/feathers-esx/compare/1.0.2...1.0.3) (2026-02-26)
+
+
+
+## [1.0.2-es-paginate-false-1.0](https://github.com/refrens/feathers-esx/compare/1.0.2...1.0.3) (2026-02-02)
+
+
+
+## [1.0.2-es-paginate-false.0](https://github.com/refrens/feathers-esx/compare/1.0.2...1.0.3) (2026-02-02)
+
 ## [1.0.2-documents-esx.0](https://github.com/refrens/feathers-esx/compare/1.0.1...1.0.2-documents-esx.0) (2026-08-17)
 
 
