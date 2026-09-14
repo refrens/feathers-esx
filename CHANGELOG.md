@@ -5,6 +5,12 @@
 
 * adds es params and versioning ([cb44a5b](https://github.com/refrens/feathers-esx/commit/cb44a5be3bad2749fed58c40a1a9db1e1d43d315))
 
+## [1.0.2](https://github.com/refrens/feathers-esx/compare/1.0.2-es-paginate-false-1.0...1.0.2) (2026-02-26)
+
+## [1.0.2-es-paginate-false-1.0](https://github.com/refrens/feathers-esx/compare/1.0.2-es-paginate-false.0...1.0.2-es-paginate-false-1.0) (2026-02-02)
+
+## [1.0.2-es-paginate-false.0](https://github.com/refrens/feathers-esx/compare/1.0.1...1.0.2-es-paginate-false.0) (2026-02-02)
+
 ## 1.0.1 (2025-06-25)
 
 
